@@ -15,7 +15,8 @@
     "pw:ui": "yarn pw --ui",
     "pw:trace": "yarn pw --trace on",
     "pw:debug": "yarn pw --debug",
-    "pw:smoke": "yarn pw --grep @smoke"
+    "pw:smoke": "yarn pw --grep @smoke",
+    "pw:report": "yarn playwright show-report"
   },
   "dependencies": {
     "chance": "^1.1.12"
