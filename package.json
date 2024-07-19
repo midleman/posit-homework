@@ -1,0 +1,23 @@
+{
+  "name": "posit-homework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/midleman/posit-homework.git",
+  "author": "Marie Idleman <marie.defurio@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.45.2",
+    "@types/node": "^20.14.11"
+  },
+  "scripts": {
+    "pw:report": "playwright show-report",
+    "pw:chrome": "playwright test --project=chromium",
+    "pw:ui": "playwright test --project=chromium --ui",
+    "pw:trace": "playwright test --project=chromium --trace on",
+    "pw:debug": "playwright test --project=chromium --debug"
+  },
+  "dependencies": {
+    "chance": "^1.1.12"
+  }
+}
