@@ -4,7 +4,7 @@ import { SidePanel } from "../../pages/sidePanel";
 import { SpacePage } from "../../pages/spacePage";
 import { ProjectPage } from "../../pages/projectPage";
 
-test.describe("modify project", () => {
+test.describe("project", () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     const sidePanel = new SidePanel(page);
