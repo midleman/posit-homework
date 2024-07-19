@@ -11,11 +11,11 @@
     "@types/node": "^20.14.11"
   },
   "scripts": {
-    "pw:report": "playwright show-report",
-    "pw:chrome": "playwright test --project=chromium",
-    "pw:ui": "playwright test --project=chromium --ui",
-    "pw:trace": "playwright test --project=chromium --trace on",
-    "pw:debug": "playwright test --project=chromium --debug"
+    "pw": "playwright test --project=chromium",
+    "pw:ui": "yarn pw --ui",
+    "pw:trace": "yarn pw --trace on",
+    "pw:debug": "yarn pw --debug",
+    "pw:smoke": "yarn pw --grep @smoke"
   },
   "dependencies": {
     "chance": "^1.1.12"
