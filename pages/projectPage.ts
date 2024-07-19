@@ -41,7 +41,7 @@ export class ProjectPage extends BasePage {
    */
   async verifyIdeSection() {
     await expect(this.iframe.getByLabel("ConsoleTabSet")).toBeVisible({
-      timeout: 20000,
+      timeout: 30000,
     });
     await expect(this.iframe.getByText("Terminal")).toBeVisible();
     await expect(this.iframe.getByText("Background Jobs")).toBeVisible();

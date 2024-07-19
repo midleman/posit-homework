@@ -4,7 +4,7 @@ import { SidePanel } from "../../pages/sidePanel";
 import { SpacePage } from "../../pages/spacePage";
 import { ProjectPage } from "../../pages/projectPage";
 
-test.describe("create project", () => {
+test.describe("modify project", () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     const sidePanel = new SidePanel(page);
@@ -31,10 +31,4 @@ test.describe("create project", () => {
       await project.verifyHasDeployed();
     }
   );
-});
-
-test("should be able to create a new project in an existing space", async ({
-  page,
-}) => {
-  // to-do: implement
 });
