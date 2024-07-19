@@ -8,8 +8,8 @@ This repository contains end-to-end tests for the Posit Cloud application using 
 
 Before setting up the project, ensure you have the following installed:
 
-- [Node.js](https://nodejs.org/) (>= 14.x)
-- [Yarn](https://yarnpkg.com/) (>= 1.x)
+- [Node.js](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
 
 ## Setup
 
