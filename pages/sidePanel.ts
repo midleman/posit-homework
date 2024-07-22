@@ -1,12 +1,35 @@
-import { Page, expect } from "@playwright/test";
+import { Page, expect, Locator } from "@playwright/test";
 import { Chance } from "chance";
 
 export class SidePanel {
   private page: Page;
+  private newSpaceButton: Locator;
+  private newSpaceDialog: Locator;
+  private nameTextbox: Locator;
+  private createButton: Locator;
+  private spaceMenu: Locator;
+  private moreActionsButton: Locator;
+  private deleteSpaceButton: Locator;
+  private nameOfSpaceToDeleteTextbox: Locator;
+  private confirmDeleteButton: Locator;
+  private spaceDeletedSuccessMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    // to-do: consider extracting and initializing locators
+    this.newSpaceButton = page.getByRole("button", { name: "New Space" });
+    this.newSpaceDialog = page.locator("#NEW_SPACE_DIALOG-purpose");
+    this.nameTextbox = page.getByRole("textbox", { name: "Name" });
+    this.createButton = page.getByRole("button", { name: "Create" });
+    this.spaceMenu = page.locator('[aria-label="Space Menu"] ul li');
+    this.moreActionsButton = page.getByLabel("More Actions");
+    this.deleteSpaceButton = page.getByRole("button", { name: "Delete Space" });
+    this.nameOfSpaceToDeleteTextbox = page.getByLabel(
+      "Name of space to delete"
+    );
+    this.confirmDeleteButton = page.getByRole("button", { name: "Delete" });
+    this.spaceDeletedSuccessMessage = page.getByText(
+      /Success! The space .* has been deleted/
+    );
   }
 
   /**
@@ -15,10 +38,10 @@ export class SidePanel {
    * @param name - name of the space
    */
   async createNewSpace(name = new Chance().word({ length: 5 })) {
-    await this.page.getByRole("button", { name: "New Space" }).click();
-    await expect(this.page.locator("#NEW_SPACE_DIALOG-purpose")).toBeVisible();
-    await this.page.getByRole("textbox", { name: "Name" }).fill(name);
-    await this.page.getByRole("button", { name: "Create" }).click();
+    await this.newSpaceButton.click();
+    await expect(this.newSpaceDialog).toBeVisible();
+    await this.nameTextbox.fill(name);
+    await this.createButton.click();
     await expect(
       this.page.getByRole("link", { name: `${name} Marie Idleman` })
     ).toBeVisible({ timeout: 15000 });
@@ -30,9 +53,7 @@ export class SidePanel {
    * @returns list of spaces
    */
   async getAllSpaces(): Promise<string[]> {
-    const allSpaces = await this.page
-      .locator('[aria-label="Space Menu"] ul li')
-      .allTextContents();
+    const allSpaces = await this.spaceMenu.allTextContents();
     const mySpaces = allSpaces
       .filter((space) => space !== "Your Workspace" && space !== "New Space")
       .map((space) =>
@@ -61,15 +82,11 @@ export class SidePanel {
    */
   async deleteSpace(name: string) {
     await this.navigateToLink(name);
-    await this.page.getByLabel(`${name}: More Actions`).click();
-    await this.page.getByRole("button", { name: "Delete Space" }).click();
-    await this.page
-      .getByLabel("Name of space to delete")
-      .fill(`Delete ${name}`);
-    await this.page.getByRole("button", { name: "Delete" }).click();
-    await expect(
-      this.page.getByText(/Success! The space .* has been deleted/)
-    ).toBeVisible();
+    await this.moreActionsButton.click();
+    await this.deleteSpaceButton.click();
+    await this.nameOfSpaceToDeleteTextbox.fill(`Delete ${name}`);
+    await this.confirmDeleteButton.click();
+    await expect(this.spaceDeletedSuccessMessage).toBeVisible();
   }
 
   async navigateToLink(name: string) {

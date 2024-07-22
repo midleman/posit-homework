@@ -1,18 +1,23 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class SpacePage extends BasePage {
-  super(page: Page) {
-    this.page = page;
+  private newProjectButton: Locator;
+  private newRStudioProjectButton: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.newProjectButton = page.getByRole("button", { name: "New Project" });
+    this.newRStudioProjectButton = page.getByRole("button", {
+      name: "New RStudio Project",
+    });
   }
 
   /**
    * Selects the "New Project" button and then the "New RStudio Project" button
    */
   async createNewProject() {
-    await this.page.getByRole("button", { name: "New Project" }).click();
-    await this.page
-      .getByRole("button", { name: "New RStudio Project" })
-      .click();
+    await this.newProjectButton.click();
+    await this.newRStudioProjectButton.click();
   }
 }

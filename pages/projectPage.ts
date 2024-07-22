@@ -1,18 +1,29 @@
-import { Page, expect } from "@playwright/test";
+import { Page, expect, Locator, FrameLocator } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class ProjectPage extends BasePage {
-  private iframe = this.page.frameLocator('iframe[title="Untitled Project"]');
+  private iframe: FrameLocator;
+  private deployingProjectText: Locator;
+  private defaultProjectText: Locator;
+  private consoleTab: Locator;
+  private terminalText: Locator;
+  private backgroundJobsText: Locator;
 
-  super(page: Page) {
-    this.page = page;
+  constructor(page: Page) {
+    super(page);
+    this.iframe = page.frameLocator('iframe[title="Untitled Project"]');
+    this.deployingProjectText = page.getByText("Deploying Project");
+    this.defaultProjectText = page.getByText("Click to name your project");
+    this.consoleTab = this.iframe.getByLabel("ConsoleTabSet");
+    this.terminalText = this.iframe.getByText("Terminal");
+    this.backgroundJobsText = this.iframe.getByText("Background Jobs");
   }
 
   /**
    * Verifies message that project is deploying is visible
    */
   async verifyIsDeploying() {
-    await expect(this.page.getByText("Deploying Project")).toBeVisible();
+    await expect(this.deployingProjectText).toBeVisible();
   }
 
   /**
@@ -29,22 +40,20 @@ export class ProjectPage extends BasePage {
    * Verifies the default header of the project displays
    */
   async verifyHeader() {
-    await expect(this.page.getByText("Click to name your project")).toBeVisible(
-      {
-        timeout: 45000,
-      }
-    );
+    await expect(this.defaultProjectText).toBeVisible({
+      timeout: 45000,
+    });
   }
 
   /**
    * Verifies the IDE frame of the project displays
    */
   async verifyIdeSection() {
-    await expect(this.iframe.getByLabel("ConsoleTabSet")).toBeVisible({
+    await expect(this.consoleTab).toBeVisible({
       timeout: 30000,
     });
-    await expect(this.iframe.getByText("Terminal")).toBeVisible();
-    await expect(this.iframe.getByText("Background Jobs")).toBeVisible();
+    await expect(this.terminalText).toBeVisible();
+    await expect(this.backgroundJobsText).toBeVisible();
   }
 
   /**
